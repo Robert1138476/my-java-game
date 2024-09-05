@@ -21,7 +21,7 @@ public class Main extends InputAdapter implements ApplicationListener {
     public void create() {
         atlas = new TextureAtlas(Gdx.files.internal("atlas/textures.atlas"));
         spriteBatch = new SpriteBatch();
-        textureSprite = new Sprite(atlas.findRegion("sand"));
+        textureSprite = atlas.createSprite("sand");
         textureSprite.setBounds(0,0,200,200);
         Gdx.input.setInputProcessor(this);
     }
@@ -50,6 +50,7 @@ public class Main extends InputAdapter implements ApplicationListener {
     @Override
     public void dispose() {
         spriteBatch.dispose();
+        atlas.dispose();
     }
 
     // Note: you can override methods from InputAdapter API to handle user's input.
