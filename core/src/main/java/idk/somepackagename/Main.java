@@ -2,6 +2,7 @@ package idk.somepackagename;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 
@@ -37,16 +39,14 @@ public class Main implements ApplicationListener {
         modelBatch = new ModelBatch();
 
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(10f, 10f, 10f);
+        cam.position.set(1f, 1f, 1f);
         cam.lookAt(0, 0, 0);
         cam.near = 1f;
         cam.far = 300f;
         cam.update();
 
-        ModelBuilder modelBuilder = new ModelBuilder();
-        model = modelBuilder.createBox(5f, 5f, 5f,
-                new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-                Usage.Position | Usage.Normal);
+        ModelLoader loader = new ObjLoader();
+        model = loader.loadModel(Gdx.files.internal("person.obj"));
         instance = new ModelInstance(model);
 
         camController = new CameraInputController(cam);
