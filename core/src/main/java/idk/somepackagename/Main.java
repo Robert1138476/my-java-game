@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 
 /**
@@ -20,6 +21,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
  * platforms. Listens to user input.
  */
 public class Main implements ApplicationListener {
+    public CameraInputController camController;
     public Environment environment;
     public PerspectiveCamera cam;
     public ModelBatch modelBatch;
@@ -46,6 +48,9 @@ public class Main implements ApplicationListener {
                 new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                 Usage.Position | Usage.Normal);
         instance = new ModelInstance(model);
+
+        camController = new CameraInputController(cam);
+        Gdx.input.setInputProcessor(camController);
     }
 
     @Override
@@ -60,6 +65,7 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
+        camController.update();
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
