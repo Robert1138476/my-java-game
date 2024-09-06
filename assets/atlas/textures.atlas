@@ -1,9 +1,0 @@
-textures.png
-size:256,128
-repeat:none
-bucket
-bounds:134,2,64,64
-drop
-bounds:2,2,64,64
-sand
-bounds:68,2,64,64
