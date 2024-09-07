@@ -5,32 +5,36 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 
 public class TestMovement {
-    private static float movementSpeed = 0.01f;
-    private static Vector3 position = new Vector3(0f, 0f, 0f);
+    private static float speed = 0.5f;
 
-    public static Vector3 step() {
-        float xMove = 0;
-        float zMove = 0;
-        if (Gdx.input.isKeyPressed(Keys.A)) {
-            xMove++;
-        }
-        if (Gdx.input.isKeyPressed(Keys.D)) {
-            xMove--;
-        }
+    public static void step() {
+        Vector3 forward = new Vector3(Main.cam.direction).nor(); // Get normalized forward direction
+        Vector3 right = new Vector3(Main.cam.direction).crs(Main.cam.up).nor(); // Right vector
+        Vector3 up = new Vector3(Main.cam.up).nor(); // Up vector
+
+        // Move forward/backward
         if (Gdx.input.isKeyPressed(Keys.W)) {
-            zMove++;
+            Main.cam.position.add(forward.scl(speed));
         }
         if (Gdx.input.isKeyPressed(Keys.S)) {
-            zMove--;
+            Main.cam.position.add(forward.scl(-speed));
         }
-        xMove *= movementSpeed;
-        zMove *= movementSpeed;
-        position = new Vector3(position.x + xMove, 0f, position.z + zMove);
 
-        if (Gdx.input.isKeyPressed(Keys.F)) {
-            Main.cam.lookAt(position);
-            Main.cam.update();
+        // Strafe left/right
+        if (Gdx.input.isKeyPressed(Keys.A)) {
+            Main.cam.position.add(right.scl(-speed));
         }
-        return position;
+        if (Gdx.input.isKeyPressed(Keys.D)) {
+            Main.cam.position.add(right.scl(speed));
+        }
+
+        // Move up/down
+        if (Gdx.input.isKeyPressed(Keys.E)) {
+            Main.cam.position.add(up.scl(speed));
+        }
+        if (Gdx.input.isKeyPressed(Keys.Q)) {
+            Main.cam.position.add(up.scl(-speed));
+        }
+        Main.cam.update();
     }
 }

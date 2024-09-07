@@ -81,19 +81,15 @@ public class Main implements ApplicationListener {
     public void render() {
         if (loading && assets.update())
             doneLoading();
-
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        if (instances.size > 0) { // Check if instances array is not empty
-            ModelInstance ship = instances.get(0);
-            Vector3 position = TestMovement.step();
-            ship.transform.setToTranslation(position);
+        TestMovement.step();
 
-            modelBatch.begin(cam);
-            modelBatch.render(instances, environment);
-            modelBatch.end();
-        }
+        modelBatch.begin(cam);
+        modelBatch.render(instances, environment);
+        modelBatch.end();
+
         UI.render();
     }
 

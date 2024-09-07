@@ -11,6 +11,7 @@ public class ui {
     private Stage stage;
     private Table table;
     private Skin skin;
+    private Label label;
 
     public void create() {
         stage = new Stage();
@@ -21,16 +22,19 @@ public class ui {
 
         skin = new Skin(Gdx.files.internal("ui\\uiskin.json"));
 
-        table.debug();
+        // table.debug(); // ENABLE WHEN DEBUG
 
-        // Add widgets to the table here.
-        Label label = new Label("test text", skin);
+        label = new Label("test text", skin);
 
         table.setSize(stage.getWidth(), stage.getHeight());
-        table.add(label).expand().align(Align.top);
-        // table.setPosition(stage.getWidth() / 2, stage.getHeight() / 2, Align.center);
-        // // Center the table on the stage
+        table.add(label).pad(3f).expand().align(Align.top);
 
+        label.setText("this is NEW text");
+
+    }
+
+    public void setText(String text) {
+        label.setText(text);
     }
 
     public void resize(int width, int height) {
