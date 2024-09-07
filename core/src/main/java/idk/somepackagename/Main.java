@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
@@ -21,19 +20,23 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Main implements ApplicationListener {
     public static PerspectiveCamera cam;
-    public CameraInputController camController;
     public ModelBatch modelBatch;
     public AssetManager assets;
     public Array<ModelInstance> instances = new Array<ModelInstance>();
     public Environment environment;
     public boolean loading;
     public TestMovement movement;
+    public ui UI;
 
     @Override
     public void create() {
+        Gdx.input.setInputProcessor(new Input());
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+
+        UI = new ui();
+        UI.create();
 
         modelBatch = new ModelBatch();
 
@@ -46,9 +49,6 @@ public class Main implements ApplicationListener {
         cam.far = 300f;
         cam.update();
 
-        camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(camController);
-
         assets = new AssetManager();
         assets.load("ship.g3db", Model.class);
         loading = true;
@@ -59,7 +59,7 @@ public class Main implements ApplicationListener {
         ModelInstance shipInstance = new ModelInstance(ship);
         ModelInstance shipInstance2 = new ModelInstance(ship);
         instances.add(shipInstance);
-        shipInstance2.transform.setTranslation(1, 0 ,1);
+        shipInstance2.transform.setTranslation(1, 0, 1);
         instances.add(shipInstance2);
         loading = false;
     }
@@ -69,32 +69,33 @@ public class Main implements ApplicationListener {
         modelBatch.dispose();
         instances.clear();
         assets.dispose();
+        UI.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
+        UI.resize(width, height);
     }
 
     @Override
     public void render() {
         if (loading && assets.update())
             doneLoading();
-        
-        camController.update();
+
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        
-        if (instances.size > 0) {  // Check if instances array is not empty
+
+        if (instances.size > 0) { // Check if instances array is not empty
             ModelInstance ship = instances.get(0);
             Vector3 position = TestMovement.step();
             ship.transform.setToTranslation(position);
-    
+
             modelBatch.begin(cam);
             modelBatch.render(instances, environment);
             modelBatch.end();
         }
+        UI.render();
     }
-    
 
     @Override
     public void pause() {
