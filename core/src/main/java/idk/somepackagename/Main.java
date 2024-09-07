@@ -26,7 +26,6 @@ public class Main implements ApplicationListener {
     public Environment environment;
     public boolean loading;
     public TestMovement movement;
-    public ui UI;
 
     @Override
     public void create() {
@@ -34,9 +33,6 @@ public class Main implements ApplicationListener {
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
-
-        UI = new ui();
-        UI.create();
 
         modelBatch = new ModelBatch();
 
@@ -69,12 +65,10 @@ public class Main implements ApplicationListener {
         modelBatch.dispose();
         instances.clear();
         assets.dispose();
-        UI.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
-        UI.resize(width, height);
     }
 
     @Override
@@ -94,7 +88,6 @@ public class Main implements ApplicationListener {
             modelBatch.render(instances, environment);
             modelBatch.end();
         }
-        UI.render();
     }
 
     @Override
