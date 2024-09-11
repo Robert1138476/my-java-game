@@ -17,7 +17,7 @@ public class customRenderer {
 
     customRenderer() {
         environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
+        environment.set(new ColorAttribute(ColorAttribute.Fog, 0.4f, 0.4f, 0.4f, 1f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -36,7 +36,7 @@ public class customRenderer {
 
     public void render() {
         modelBatch.begin(cam);
-        modelBatch.render(instances, environment);
+        modelBatch.render(instances);
         modelBatch.end();
     }
 }

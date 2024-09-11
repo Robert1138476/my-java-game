@@ -41,5 +41,9 @@ public class Player {
             rdr.cam.position.add(up.scl(-speed));
         }
         rdr.cam.update();
+
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
     }
 }
