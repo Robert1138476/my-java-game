@@ -2,16 +2,20 @@ package idk.somepackagename;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player {
     public float acceleration = .6f; // how fast the player gets faster?
     public float maxWalkSpeed = 1; // how fast before the player stops speeding up DOES NOT CAP SPEED
     Vector3 velocity = new Vector3(0f, 0f, 0f); // the players speed in all directions
-    float height = 10;
+    float height = 2;
     float gravity = 0.5f;
     float airFriction = .8f; // slows down player when no input is pressed for basic stopping ig
     Vector3 position = new Vector3(0, 5, 0);
+    public static Matrix4 transform;
+    Quaternion rotation = new Quaternion();
 
     public customRenderer rdr; // for camera updates
     uiRenderer UI;
@@ -56,10 +60,16 @@ public class Player {
         // Apply movement to position
         position.add(velocity.scl(deltaTime * 60));
 
+        if (PlayerPhysics.checkCollision() == false) {
+            position.y -= .1f;
+        }
+
         rdr.cam.position.set(position);
         rdr.cam.update();
 
         UI.setText(position.toString());
+
+        transform.set(position, rotation);
 
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();

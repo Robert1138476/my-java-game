@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.bullet.Bullet;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -21,6 +22,9 @@ public class Main implements ApplicationListener {
         Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
         Gdx.graphics.setFullscreenMode(displayMode);
 
+        Bullet.init();
+        PlayerPhysics.create();
+
         UI = new uiRenderer();
         UI.create();
 
@@ -37,6 +41,7 @@ public class Main implements ApplicationListener {
     public void dispose() {
         UI.dispose();
         ground.dispose();
+        PlayerPhysics.dispose();
     }
 
     @Override

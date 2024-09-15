@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.graphics.g3d.Material;
 
 public class Ground {
     private Model model;
     private ModelInstance instance;
+    public static Matrix4 transform;
 
     public Ground(float width, float depth, customRenderer renderer) {
         Material material = new Material(
@@ -22,6 +24,7 @@ public class Ground {
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         instance = new ModelInstance(model);
 
+        transform = instance.transform;
         renderer.add(instance);
     }
 
