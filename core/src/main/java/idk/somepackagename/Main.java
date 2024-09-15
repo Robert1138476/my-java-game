@@ -26,11 +26,11 @@ public class Main implements ApplicationListener {
 
         renderer = new customRenderer();
 
-        plr = new Player(renderer);
+        plr = new Player(renderer, UI);
         plrinput = new PlayerInput(renderer);
         Gdx.input.setInputProcessor(plrinput);
 
-        ground = new Ground(100f, 100f, renderer);
+        ground = new Ground(10f, 10f, renderer);
     }
 
     @Override
@@ -46,10 +46,11 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-        plr.step();
+        plr.step(deltaTime);
         renderer.render();
 
         UI.render();
